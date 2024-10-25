@@ -1,5 +1,5 @@
 :root {
-  --Moderate-blue: hsl(238, 40%, 52%);
+  --Moderate-blue: rgb(84, 87, 182);
   --Soft-Red: hsl(358, 79%, 66%);
   --Light-grayish-blue: hsl(239, 57%, 85%);
   --Pale-red: hsl(357, 100%, 86%);
@@ -13,8 +13,12 @@
 
 body {
   background-color: var(--Light-gray);
-  padding: 2rem 1rem;
-  height: calc(100vh + 25rem);
+  padding: 1rem;
+}
+
+#root {
+  display: grid;
+  grid-template-rows: 1fr 12rem;
 }
 
 .comments__comment {
@@ -22,6 +26,11 @@ body {
   border-radius: 10px;
   padding: 1rem;
   margin: 1rem 0rem;
+}
+
+.comment__topsection {
+  display: flex;
+  justify-content: space-between;
 }
 
 .comment__authorinfo {
@@ -67,14 +76,31 @@ body {
 .comment__upvotebox {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.6rem;
   background-color: var(--Very-light-gray);
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.8rem;
   border-radius: 10px;
+}
+
+.comment__upvotebox button {
+  border: none;
+  background-color: transparent;
+  width: 20px;
+  height: 25px;
+}
+
+.comment__upvotebox button:hover img {
+  filter: brightness(0) saturate(100%) invert(28%) sepia(99%) saturate(765%)
+    hue-rotate(211deg) brightness(93%) contrast(83%);
+}
+
+.comment__upvotebox button:hover {
+  cursor: pointer;
 }
 
 .comment__upvotebox span {
   color: var(--Moderate-blue);
+  font-weight: 500;
 }
 
 .comment__crudactions {
@@ -83,10 +109,21 @@ body {
   gap: 1rem;
 }
 
+.comment__crudactions--desktop {
+  display: none;
+}
+
 .comment__deletebox {
   display: flex;
   align-items: center;
+  border: none;
+  background-color: transparent;
   gap: 0.5rem;
+}
+
+.comment__deletebox:hover {
+  cursor: pointer;
+  opacity: 50%;
 }
 
 .comment__deletebox span {
@@ -97,7 +134,18 @@ body {
 .comment__replybox {
   display: flex;
   align-items: center;
+  border: none;
+  background-color: transparent;
   gap: 0.5rem;
+}
+
+.comment__replybox:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+.commment__replybox--desktop {
+  display: none;
 }
 
 .comment__replybox span {
@@ -107,7 +155,7 @@ body {
 
 .comment__replies {
   list-style: none;
-  border-left: solid 2px rgba(103, 114, 126, 0.5);
+  border-left: solid 2px rgba(210, 211, 212, 0.4);
   padding-left: 1rem;
 }
 
@@ -152,6 +200,11 @@ body {
   padding: 0.5rem 1.5rem;
 }
 
+.newcomment__submit:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -162,4 +215,83 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap; /* added line */
   border: 0;
+}
+
+@media (min-width: 45rem) {
+  body {
+    padding: 1rem 10vw;
+  }
+
+  #root {
+    grid-template-rows: 1fr 10rem;
+  }
+
+  .comments__comment {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 1.5rem;
+  }
+
+  .comment__actions {
+    flex-direction: column;
+  }
+
+  .comment__crudactions {
+    display: none;
+  }
+
+  .comment__crudactions--desktop {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .comment__crudactions--desktop img {
+    height: 13px;
+    width: 13px;
+  }
+
+  .comment__upvotebox {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .comment__replybox {
+    display: none;
+  }
+
+  .commment__replybox--desktop {
+    display: flex;
+  }
+
+  .commment__replybox--desktop img {
+    height: 13px;
+    width: 13px;
+  }
+
+  .comment__replies {
+    padding-left: 2.5rem;
+    margin-left: 2.5rem;
+  }
+
+  .newcomment {
+    bottom: 2rem;
+    left: 10vw;
+    right: 10vw;
+  }
+}
+
+@media (min-width: 65rem) {
+  body {
+    padding: 4rem 23vw;
+  }
+
+  .comment__authorinfo {
+    gap: 0.5rem;
+  }
+
+  .newcomment {
+    bottom: 2rem;
+    left: 23vw;
+    right: 23vw;
+  }
 }
