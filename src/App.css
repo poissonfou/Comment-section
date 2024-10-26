@@ -53,6 +53,7 @@ body {
   color: white;
   padding: 0.5rem;
   padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
   border-radius: 5px;
   font-size: 12px;
 }
@@ -65,6 +66,11 @@ body {
   margin: 1rem 0rem;
   color: var(--Grayish-Blue);
   line-height: 1.28rem;
+}
+
+.mention {
+  color: var(--Moderate-blue);
+  font-weight: 500;
 }
 
 .comment__actions {

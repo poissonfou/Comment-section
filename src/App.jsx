@@ -11,9 +11,40 @@ import replyIcon from "./images/icon-reply.svg";
 import deleteIcon from "./images/icon-delete.svg";
 import editIcon from "./images/icon-edit.svg";
 
+import Popup from "./Popup";
+
+import { useState } from "react";
+
 function App() {
+  const [showPopup, setShowPopup] = useState(false);
+  const [deleting, setDeleting] = useState(null);
+
+  function upvote(e) {
+    const span = e.currentTarget.nextElementSibling;
+    const n = span.innerText;
+    span.innerText = +n + 1;
+  }
+
+  function downvote(e) {
+    const span = e.currentTarget.previousElementSibling;
+    const n = span.innerText;
+    if (n == "0") return;
+    span.innerText = +n - 1;
+  }
+
+  function deleteComment(e) {
+    let element = e.currentTarget;
+    while (![...element.parentNode.classList].includes("comments__comment")) {
+      element = element.parentNode;
+    }
+
+    setShowPopup(() => true);
+    setDeleting(() => element.parentNode);
+  }
+
   return (
     <>
+      {showPopup && <Popup deleting={deleting} close={setShowPopup} />}
       <main className="commments">
         <div className="comments__commentbox">
           <div className="comments__comment">
@@ -38,12 +69,12 @@ function App() {
 
             <div className="comment__actions">
               <div className="comment__upvotebox">
-                <button>
+                <button onClick={(e) => upvote(e)}>
                   <img src={plusSign} alt="plus sign" />
                 </button>
 
                 <span>12</span>
-                <button>
+                <button onClick={(e) => downvote(e)}>
                   <img src={minusSign} alt="minus sign" />
                 </button>
               </div>
@@ -79,12 +110,12 @@ function App() {
 
             <div className="comment__actions">
               <div className="comment__upvotebox">
-                <button>
+                <button onClick={(e) => upvote(e)}>
                   <img src={plusSign} alt="plus sign" />
                 </button>
 
                 <span>5</span>
-                <button>
+                <button onClick={(e) => downvote(e)}>
                   <img src={minusSign} alt="minus sign" />
                 </button>
               </div>
@@ -119,11 +150,11 @@ function App() {
 
                 <div className="comment__actions">
                   <div className="comment__upvotebox">
-                    <button>
+                    <button onClick={(e) => upvote(e)}>
                       <img src={plusSign} alt="plus sign" />
                     </button>
                     <span>4</span>
-                    <button>
+                    <button onClick={(e) => downvote(e)}>
                       <img src={minusSign} alt="minus sign" />
                     </button>
                   </div>
@@ -145,7 +176,10 @@ function App() {
                       <p className="comment__timestamp">2 days ago</p>
                     </div>
                     <div className="comment__crudactions comment__crudactions--desktop">
-                      <button className="comment__deletebox">
+                      <button
+                        className="comment__deletebox"
+                        onClick={(e) => deleteComment(e)}
+                      >
                         <img src={deleteIcon} alt="reply icon" />
                         <span>Delete</span>
                       </button>
@@ -156,7 +190,7 @@ function App() {
                     </div>
                   </div>
                   <p className="comment__content">
-                    <span className="mention">@ramsesmiron</span>I couldn't
+                    <span className="mention">@ramsesmiron</span> I couldn't
                     agree more with this. Everything moves so fast and it always
                     seems like everyone knows the newest library/framework. But
                     the fundamentals are what stay constant.
@@ -165,16 +199,19 @@ function App() {
 
                 <div className="comment__actions">
                   <div className="comment__upvotebox">
-                    <button>
+                    <button onClick={(e) => upvote(e)}>
                       <img src={plusSign} alt="plus sign" />
                     </button>
                     <span>2</span>
-                    <button>
+                    <button onClick={(e) => downvote(e)}>
                       <img src={minusSign} alt="minus sign" />
                     </button>
                   </div>
                   <div className="comment__crudactions">
-                    <button className="comment__deletebox">
+                    <button
+                      className="comment__deletebox"
+                      onClick={(e) => deleteComment(e)}
+                    >
                       <img src={deleteIcon} alt="reply icon" />
                       <span>Delete</span>
                     </button>
