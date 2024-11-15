@@ -18,6 +18,7 @@ import { useState } from "react";
 function App() {
   const [showPopup, setShowPopup] = useState(false);
   const [deleting, setDeleting] = useState(null);
+  const [editing, setEditing] = useState(false);
 
   function upvote(e) {
     const span = e.currentTarget.nextElementSibling;
@@ -42,6 +43,55 @@ function App() {
     setDeleting(() => element.parentNode);
   }
 
+  function openReply(e) {
+    let element = e.currentTarget;
+    while (![...element.parentNode.classList].includes("comments__comment")) {
+      element = element.parentNode;
+    }
+
+    const form =
+      element.parentNode.parentNode.querySelector(".newcomment--popup");
+
+    if (form) {
+      form.remove();
+      return;
+    }
+
+    element.parentNode.insertAdjacentHTML(
+      "afterend",
+      ` <form class="newcomment newcomment--popup">
+        <label for="comment" class="sr-only">
+          New Comment
+        </label>
+        <textarea
+          name="comment"
+          class="newcomment__textbox"
+          placeholder="Add a comment..."
+          id="comment"
+        ></textarea>
+        <div class="newcomment__submitbox">
+          <img src=${userProfile} alt="profile picture" />
+          <button type="button" class="newcomment__submit"  onclick="(e) =>
+            reply(e)">reply</button>
+        </div>
+      </form>`
+    );
+
+    setShowPopup(() => false);
+  }
+
+  function edit(e) {
+    const prevComment =
+      e.currentTarget.parentNode.parentNode.nextElementSibling.textContent;
+
+    setEditing((prev) => !prev);
+
+    setTimeout(() => {
+      const textarea = document.getElementById("edit-comment");
+      textarea.innerText = prevComment;
+    }, 100);
+  }
+
   return (
     <>
       {showPopup && <Popup deleting={deleting} close={setShowPopup} />}
@@ -55,7 +105,10 @@ function App() {
                   <p className="comment__author">amyrobson</p>
                   <p className="comment__timestamp">1 month ago</p>
                 </div>
-                <button className="comment__replybox commment__replybox--desktop">
+                <button
+                  className="comment__replybox commment__replybox--desktop"
+                  onClick={(e) => openReply(e)}
+                >
                   <img src={replyIcon} alt="reply icon" />
                   <span>Reply</span>
                 </button>
@@ -78,7 +131,10 @@ function App() {
                   <img src={minusSign} alt="minus sign" />
                 </button>
               </div>
-              <button className="comment__replybox">
+              <button
+                className="comment__replybox"
+                onClick={(e) => openReply(e)}
+              >
                 <img src={replyIcon} alt="reply icon" />
                 <span>Reply</span>
               </button>
@@ -95,7 +151,10 @@ function App() {
                   <p className="comment__author">maxblagun</p>
                   <p className="comment__timestamp">2 weeks ago</p>
                 </div>
-                <button className="comment__replybox  commment__replybox--desktop">
+                <button
+                  className="comment__replybox  commment__replybox--desktop"
+                  onClick={(e) => openReply(e)}
+                >
                   <img src={replyIcon} alt="reply icon" />
                   <span>Reply</span>
                 </button>
@@ -119,7 +178,10 @@ function App() {
                   <img src={minusSign} alt="minus sign" />
                 </button>
               </div>
-              <button className="comment__replybox">
+              <button
+                className="comment__replybox"
+                onClick={() => openReply(e)}
+              >
                 <img src={replyIcon} alt="reply icon" />
                 <span>Reply</span>
               </button>
@@ -135,7 +197,10 @@ function App() {
                       <p className="comment__author">ramsesmiron</p>
                       <p className="comment__timestamp">1 week ago</p>
                     </div>
-                    <button className="comment__replybox  commment__replybox--desktop">
+                    <button
+                      className="comment__replybox  commment__replybox--desktop"
+                      onClick={(e) => openReply(e)}
+                    >
                       <img src={replyIcon} alt="reply icon" />
                       <span>Reply</span>
                     </button>
@@ -158,7 +223,10 @@ function App() {
                       <img src={minusSign} alt="minus sign" />
                     </button>
                   </div>
-                  <button className="comment__replybox">
+                  <button
+                    className="comment__replybox"
+                    onClick={(e) => openReply(e)}
+                  >
                     <img src={replyIcon} alt="reply icon" />
                     <span>Reply</span>
                   </button>
@@ -183,18 +251,39 @@ function App() {
                         <img src={deleteIcon} alt="reply icon" />
                         <span>Delete</span>
                       </button>
-                      <button className="comment__replybox  commment__replybox--desktop">
+                      <button
+                        className="comment__replybox  commment__replybox--desktop"
+                        onClick={(e) => edit(e)}
+                      >
                         <img src={editIcon} alt="edit icon" />
-                        <span>Reply</span>
+                        <span>Edit</span>
                       </button>
                     </div>
                   </div>
-                  <p className="comment__content">
-                    <span className="mention">@ramsesmiron</span> I couldn't
-                    agree more with this. Everything moves so fast and it always
-                    seems like everyone knows the newest library/framework. But
-                    the fundamentals are what stay constant.
-                  </p>
+                  {!editing && (
+                    <p className="comment__content">
+                      <span className="mention">@ramsesmiron</span> I couldn't
+                      agree more with this. Everything moves so fast and it
+                      always seems like everyone knows the newest
+                      library/framework. But the fundamentals are what stay
+                      constant.
+                    </p>
+                  )}
+                  {editing && (
+                    <form>
+                      <label htmlFor="edit" className="sr-only">
+                        Edit your comment
+                      </label>
+                      <textarea
+                        className="newcomment__textbox newcomment__textbox--edit"
+                        name="edit"
+                        id="edit-comment"
+                      ></textarea>
+                      <button className="newcomment__submit newcomment__submit--edit">
+                        Update
+                      </button>
+                    </form>
+                  )}
                 </div>
 
                 <div className="comment__actions">

@@ -28,6 +28,10 @@ body {
   margin: 1rem 0rem;
 }
 
+.comments__comment div:first-child {
+  width: 100%;
+}
+
 .comment__topsection {
   display: flex;
   justify-content: space-between;
@@ -86,6 +90,7 @@ body {
   background-color: var(--Very-light-gray);
   padding: 0.5rem 0.8rem;
   border-radius: 10px;
+  width: fit-content !important;
 }
 
 .comment__upvotebox button {
@@ -175,13 +180,30 @@ body {
   padding: 1rem;
 }
 
+.newcomment--popup {
+  position: static !important;
+}
+
 .newcomment__textbox {
   width: 100%;
   border-radius: 10px;
   border: solid 1px var(--Light-gray);
-  padding: 1rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   resize: none;
   height: 6rem;
+  caret-color: var(--Moderate-blue);
+  color: var(--Grayish-Blue);
+  line-height: 1.2rem;
+  font-size: 0.9rem;
+}
+
+.newcomment__textbox--edit {
+  margin: 1rem 0rem;
+}
+
+.newcomment__textbox:hover {
+  cursor: pointer;
+  border: solid 1px var(--Moderate-blue);
 }
 
 .newcomment__submitbox {
@@ -204,6 +226,11 @@ body {
   border: none;
   border-radius: 5px;
   padding: 0.5rem 1.5rem;
+}
+
+.newcomment__submit--edit {
+  margin-left: 100%;
+  transform: translateX(-100%);
 }
 
 .newcomment__submit:hover {
